@@ -2,6 +2,8 @@ ARG BUILD_FROM=ghcr.io/hassio-addons/base:15.0.9
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
+ENV HEALTHCHECK_START_PERIOD=
+
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -51,7 +53,7 @@ RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/obfs4proxy \
     && setcap 'cap_net_bind_service=+ep'  /usr/local/bin/webtunnel
 
 HEALTHCHECK \
-    --start-period=60m \
+    --start-period=${HEALTHCHECK_START_PERIOD} \
     --interval=60s \
     --timeout=30s \
     CMD curl \
